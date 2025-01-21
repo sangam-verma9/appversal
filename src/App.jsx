@@ -4,7 +4,6 @@ import { FaPlay } from "react-icons/fa6";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { RxCross1 } from "react-icons/rx";
 import "./App.css";
-// import {storiesData} from "./assets/storydata";
 import { storiesData } from "./assets/story";
 
 const App = () => {
