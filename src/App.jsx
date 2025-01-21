@@ -4,7 +4,8 @@ import { FaPlay } from "react-icons/fa6";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { RxCross1 } from "react-icons/rx";
 import "./App.css";
-import {storiesData} from "./assets/storydata"
+// import {storiesData} from "./assets/storydata";
+import { storiesData } from "./assets/story";
 
 const App = () => {
   const [activeStory, setActiveStory] = useState(null);
@@ -71,6 +72,9 @@ const App = () => {
 
   return (
     <div className="App">
+      <div>
+        <h1> Welcome to Story Teller</h1>
+      </div>
       <div className="stories-container">
         {storiesData.map((story) => (
           <div className="story-container" key={story.id}>
@@ -81,7 +85,7 @@ const App = () => {
             >
               <img src={story.thumbnail} alt="hello" />
             </div>
-            <p>{story.title}</p>
+            <p style={{color:`${story.nameColor}`}}>{story.name}</p>
           </div>
         ))}
       </div>
@@ -118,7 +122,7 @@ const App = () => {
               {isPaused ? <FaPlay /> : <IoPause />}
             </button>
             <img
-              src={activeStory.slides[currentSlide]}
+              src={activeStory.slides[currentSlide].image}
               alt={`Slide ${currentSlide + 1}`}
             />
             <button onClick={prevSlide} disabled={currentSlide === 0} className="btn prev-btn">
@@ -127,6 +131,9 @@ const App = () => {
             <button onClick={nextSlide} className="btn next-btn">
               <GrNext />
             </button>
+          </div>
+          <div className="checkout-btn">
+            <button><a href={`${activeStory.slides[currentSlide].link}`}>{activeStory.slides[currentSlide].button_text}</a></button>
           </div>
         </div>
       )}
