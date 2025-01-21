@@ -14,11 +14,12 @@ body {
 .stories-container {
   display: flex;
   gap: 15px;
+  /* overflow-x: scroll; */
 }
 
 .story {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background: #ddd;
   display: flex;
   justify-content: center;
@@ -28,8 +29,8 @@ body {
   border-radius: 50%;
 }
 .story img{
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
 }
 

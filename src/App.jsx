@@ -78,7 +78,7 @@ const App = () => {
             key={story.id}
             className="story"
             onClick={() => openStory(story)}
-            style={{ border: `3px solid ${story.ringColor}` }}
+            style={{ border: `2px solid ${story.ringColor}` }}
           >
             <img src={story.thumbnail} alt="hello" />
           </div>
