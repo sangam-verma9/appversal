@@ -1,66 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { IoPause } from "react-icons/io5";
 import { FaPlay } from "react-icons/fa6";
-import { GrPrevious,GrNext } from "react-icons/gr";
+import { GrPrevious, GrNext } from "react-icons/gr";
+import { RxCross1 } from "react-icons/rx";
 import "./App.css";
-
-const storiesData = [
-  {
-    id: 1,
-    title: "Story 1",
-    thumbnail:"https://res.cloudinary.com/dirhwaotp/image/upload/v1698325284/samples/man-portrait.jpg",
-    ringColor:"#d7b404",
-    slides: [
-      "https://res.cloudinary.com/dirhwaotp/image/upload/v1698857118/i58ckdzwlyvofneizujv.jpg",
-      "https://res.cloudinary.com/dirhwaotp/image/upload/v1698857117/dx4cqlgwmy3nqc9jiruv.jpg",
-      "https://res.cloudinary.com/dirhwaotp/image/upload/v1698857071/rkpxyqbuwc2uhsbha02e.jpg",
-    ],
-  },
-  {
-    id: 2,
-    title: "Story 2",
-    thumbnail:"https://res.cloudinary.com/dirhwaotp/image/upload/v1698325284/samples/man-portrait.jpg",
-    ringColor:"#ffea00",
-    slides: [
-      "https://res.cloudinary.com/dirhwaotp/image/upload/v1698857019/jgoupzt8drb7lec2bnyc.jpg",
-      "https://res.cloudinary.com/dirhwaotp/image/upload/v1698857017/gngzplrkppeyjk7uqexq.jpg",
-    ],
-  },
-  {
-    id: 3,
-    title: "Story 3",
-    thumbnail:"https://res.cloudinary.com/dirhwaotp/image/upload/v1698325284/samples/man-portrait.jpg",
-    ringColor:"red",
-    slides: [
-      "https://res.cloudinary.com/dirhwaotp/image/upload/v1698857019/jgoupzt8drb7lec2bnyc.jpg",
-      "https://res.cloudinary.com/dirhwaotp/image/upload/v1698857017/gngzplrkppeyjk7uqexq.jpg",
-    ],
-  },
-  {
-    id: 4,
-    title: "Story 4",
-    thumbnail:"https://res.cloudinary.com/dirhwaotp/image/upload/v1698325284/samples/man-portrait.jpg",
-    ringColor:"red",
-    slides: [
-      "https://res.cloudinary.com/dirhwaotp/image/upload/v1698857019/jgoupzt8drb7lec2bnyc.jpg",
-      "https://res.cloudinary.com/dirhwaotp/image/upload/v1698857017/gngzplrkppeyjk7uqexq.jpg",
-    ],
-  },
-];
+import {storiesData} from "./assets/storydata"
 
 const App = () => {
   const [activeStory, setActiveStory] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const progressBarRef = useRef(null); // Ref for the progress bar element
-  const [progressWidth, setProgressWidth] = useState(0); // Progress width for smooth animation
+  const [progressWidths, setProgressWidths] = useState([]); // Array to track progress for each slide
 
   const openStory = (story) => {
     setActiveStory(story);
     setCurrentSlide(0);
     setIsPaused(false);
-    setProgressWidth(0); // Reset progress when opening a new story
+    setProgressWidths(new Array(story.slides.length).fill(0));
     setIsModalOpen(true);
   };
 
@@ -96,23 +53,22 @@ const App = () => {
     }
   }, [currentSlide, isModalOpen, isPaused]);
 
-  // Progress bar animation logic
+  // Update progress bar for each slide based on the time interval
   useEffect(() => {
-    if (!isPaused && progressBarRef.current) {
-      const interval = setInterval(() => {
-        setProgressWidth((prev) => {
-          if (prev < 100) {
-            return prev + (100 / 5000) * 100; // 100% over 5 seconds
-          } else {
-            clearInterval(interval);
-            return 100;
+    if (!isPaused && activeStory) {
+      const progressInterval = setInterval(() => {
+        setProgressWidths((prevWidths) => {
+          const newWidths = [...prevWidths];
+          if (newWidths[currentSlide] < 100) {
+            newWidths[currentSlide] += 100 / 50; // Increment by a percentage of total (5 seconds)
           }
+          return newWidths;
         });
-      }, 50); // Update every 50ms
+      }, 50); // Update progress every 50ms
 
-      return () => clearInterval(interval);
+      return () => clearInterval(progressInterval);
     }
-  }, [currentSlide, isPaused]);
+  }, [currentSlide, isPaused, activeStory]);
 
   return (
     <div className="App">
@@ -122,7 +78,7 @@ const App = () => {
             key={story.id}
             className="story"
             onClick={() => openStory(story)}
-            style={{border: `3px solid ${story.ringColor}`}}
+            style={{ border: `3px solid ${story.ringColor}` }}
           >
             <img src={story.thumbnail} alt="hello" />
           </div>
@@ -132,17 +88,28 @@ const App = () => {
       {isModalOpen && activeStory && (
         <div className="modal">
           <button className="close-btn" onClick={closeStory}>
-            &times;
+            <RxCross1 />
           </button>
           <div className="progress-container">
-            {
-              activeStory.slides.map((slide,ind) =>{
-                return(
-                  <div className="progress-bar"></div>
-                )
-              })
-            }
-            
+            {activeStory.slides.map((_, index) => (
+              <div
+                key={index}
+                className={`progress-bar ${
+                  index < currentSlide
+                    ? "completed"
+                    : index === currentSlide
+                    ? "active"
+                    : ""
+                }`}
+              >
+                {index === currentSlide && (
+                  <div
+                    className="progress-bar-fill"
+                    style={{ width: `${progressWidths[index]}%` }}
+                  />
+                )}
+              </div>
+            ))}
           </div>
           <div className="slide-container">
             {/* Pause Button */}
@@ -157,7 +124,7 @@ const App = () => {
               <GrPrevious />
             </button>
             <button onClick={nextSlide} className="btn next-btn">
-              {currentSlide < activeStory.slides.length - 1 ? <GrNext /> : <GrNext />}
+              <GrNext />
             </button>
           </div>
         </div>

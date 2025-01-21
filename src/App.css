@@ -87,12 +87,6 @@ body {
 .next-btn{
   right: 0;
 }
-.controls {
-  margin-top: 15px;
-  display: flex;
-  gap: 10px;
-}
-
 .controls button {
   padding: 10px 20px;
   border: none;
@@ -111,15 +105,35 @@ button:disabled {
 .progress-container {
   display: flex;
   width: 300px;
-  
+  gap: 4px;
+  margin-bottom: 10px;
 }
+
 .progress-bar {
-  margin-right: 2px;
-  height: 5px;
-  content: "";
-  width: auto;
+  flex: 1;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.progress-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
   background-color: white;
   transition: width 0.1s linear;
+  border-radius: 5px;
+}
+
+.progress-bar.completed {
+  background-color: white;
+}
+
+.progress-bar.active .progress-bar-fill {
+  background-color: white;
 }
 
 .pause-btn {
