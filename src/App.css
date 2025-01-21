@@ -24,7 +24,6 @@ body {
 .story {
   width: 88px;
   height: 88px;
-  /* background: #ddd; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,6 +35,10 @@ body {
   width: 80px;
   height: 80px;
   border-radius: 50%;
+}
+.story img:hover{
+  width: 85px;
+  height: 85px;
 }
 .story-container{
   text-align: center;
@@ -165,8 +168,13 @@ button:disabled {
 .checkout-btn button {
   padding: 10px 15px;
   border-radius: 7px;
-  background-color: transparent;
-
+  background-color: rgb(41, 40, 40);
+  border: 1px solid black;
+}
+.checkout-btn button:hover{
+  background-color: black;
+  color: white;
+  cursor: pointer;
 }
 .checkout-btn button a{
   text-decoration: none;
