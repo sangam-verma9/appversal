@@ -11,7 +11,7 @@ const App = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [progressWidths, setProgressWidths] = useState([]); // Array to track progress for each slide
+  const [progressWidths, setProgressWidths] = useState([]);
 
   const openStory = (story) => {
     setActiveStory(story);
@@ -45,10 +45,9 @@ const App = () => {
     setIsPaused(!isPaused);
   };
 
-  // Auto-slide timer
   useEffect(() => {
     if (isModalOpen && !isPaused) {
-      const timer = setTimeout(nextSlide, 5000); // 5 seconds per slide
+      const timer = setTimeout(nextSlide, 5000); 
       return () => clearTimeout(timer);
     }
   }, [currentSlide, isModalOpen, isPaused]);
@@ -60,11 +59,11 @@ const App = () => {
         setProgressWidths((prevWidths) => {
           const newWidths = [...prevWidths];
           if (newWidths[currentSlide] < 100) {
-            newWidths[currentSlide] += 100 / 50; // Increment by a percentage of total (5 seconds)
+            newWidths[currentSlide] += 100 / 50; 
           }
           return newWidths;
         });
-      }, 50); // Update progress every 50ms
+      }, 100);
 
       return () => clearInterval(progressInterval);
     }
@@ -74,13 +73,15 @@ const App = () => {
     <div className="App">
       <div className="stories-container">
         {storiesData.map((story) => (
-          <div
-            key={story.id}
-            className="story"
-            onClick={() => openStory(story)}
-            style={{ border: `2px solid ${story.ringColor}` }}
-          >
-            <img src={story.thumbnail} alt="hello" />
+          <div className="story-container" key={story.id}>
+            <div
+              className="story"
+              onClick={() => openStory(story)}
+              style={{ border: `2px solid ${story.ringColor}` }}
+            >
+              <img src={story.thumbnail} alt="hello" />
+            </div>
+            <p>{story.title}</p>
           </div>
         ))}
       </div>

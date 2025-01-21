@@ -3,7 +3,9 @@ body {
   font-family: Arial, sans-serif;
   background: #f0f0f0;
 }
-
+::-webkit-scrollbar{
+  display: none;
+}
 .App {
   display: flex;
   justify-content: center;
@@ -14,13 +16,14 @@ body {
 .stories-container {
   display: flex;
   gap: 15px;
-  /* overflow-x: scroll; */
+  overflow-x: scroll;
+  margin: 10px;
 }
 
 .story {
-  width: 80px;
-  height: 80px;
-  background: #ddd;
+  width: 88px;
+  height: 88px;
+  /* background: #ddd; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +36,9 @@ body {
   height: 80px;
   border-radius: 50%;
 }
-
+.story-container{
+  text-align: center;
+}
 
 .modal {
   position: fixed;

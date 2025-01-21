@@ -34,7 +34,7 @@ export const storiesData = [
         id: 4,
         title: "Story 4",
         thumbnail: "https://res.cloudinary.com/dirhwaotp/image/upload/v1698325284/samples/man-portrait.jpg",
-        ringColor: "red",
+        ringColor: "tomato",
         slides: [
             "https://res.cloudinary.com/dirhwaotp/image/upload/v1698843030/lro9075fhcgjk4pum5e3.jpg",
         ],
@@ -49,5 +49,5 @@ export const storiesData = [
             "https://res.cloudinary.com/dirhwaotp/image/upload/v1698325253/samples/animals/cat.jpg"
         ],
     },
-    
+
 ];
